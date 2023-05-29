@@ -1,0 +1,57 @@
+﻿@model INvoicePracitic.Models.SaleMaster;
+@{
+    ViewData["Title"] = "Report";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var m = ViewData["master"] as List<INvoicePracitic.Models.SaleMaster>;
+    var d = ViewData["Details"] as List<INvoicePracitic.Models.SaleDetails>;
+}
+
+<h1>Report</h1>
+
+<div>
+    
+        @foreach(var list in m)
+        {
+        <table class="table table-bordered table-responsive table-striped">
+            <thead>
+                <th>Photo</th>
+                <th>Create Date</th>
+                <th>Name</th>
+                <th>Address</th>
+                <th>Gender</th>
+            </thead>
+            <tr>
+                @{
+                    var date = Convert.ToDateTime(list.CreateDate).ToString("yyyy-MM-dd");
+                }
+                <td>
+                    <img src="@Url.Action("ShowImage", "Sales", new { fileName = list.Photo} )" alt="Photo" width="120" height="120"/>
+                </td>
+                    <td>@date</td>
+                    <td>@list.Name</td>
+                    <td>@list.Address</td>
+                    <td>@list.Gender</td>
+                    <td><a href="/Sales/Edit?id=@list.SaleId">Edit</a></td>
+                    <td><a href="/Sales/Delete?id=@list.SaleId">Delete</a></td>
+                </tr>
+                <thead>
+                    <th>Product Name</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                </thead>
+            @foreach(var item in d)
+            {
+                if(item.SaleId==list.SaleId)
+                {
+                    <tr>
+                        <td>@item.ProductName</td>
+                        <td>@item.Qty</td>
+                        <td>@item.Price</td>
+                    </tr>
+                }
+                
+            }
+            </table><br /><br /><br /><br />
+        }
+        
+</div>

@@ -1,0 +1,47 @@
+﻿@{
+    ViewData["Title"] = "Add";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Add</h1>
+
+<form method="post" asp-action="Add" enctype="multipart/form-data">
+    <input type="hidden" name="SaleId" />
+    <label>Create Date</label><br />
+    <input type="date" name="CreateDate"/><br /><br />
+    <input type="text" name="Name" placeholder="Name" /><br /><br />
+    <input type="text" name="Address" placeholder="Address"/><br /><br />
+    <lable>Gender</lable><br />
+    <input type="radio" name="Gender" id="Male" value="Male"/>
+    <label>Male</label><br />
+    <input type="radio" name="Gender" id="Female" value="Female"/>
+    <lable>Female</lable><br /><br />
+    <label>Photo</label><br />
+    <input type="file" name="File" /><br /><br /><br />
+    <button type="submit">Save</button><br /><br />
+    <button type="button" onclick="add();">Add more Item</button><br />
+    <table id="t" style="display:none;">
+        <tbody id="tsd">
+            <thead>
+                <th>Product Name</th>
+                <th>Quantity</th>
+                <th>Price</th>
+            </thead>
+        </tbody>
+    </table>
+</form>
+
+<script>
+    function add() {
+       document.getElementById('t').style.display = '';
+       var trs = '<tr id="tr_0"><td><input type="text" name="ProductName" placeholder="Product Name" value=""/></td>'+
+       '<td><input type="text" name="Qty" placeholder="Qunatity" value=""/></td>'+
+       '<td><input type="text" name="Price" placeholder="Price" value="" /></td>'+
+       '<td><button type=button onclick="remove(0)">Remove</button></td></tr>';
+       document.getElementById('tsd').innerHTML += trs;
+    }
+
+    function remove(id) {
+        document.getElementById('tr_'+id).remove();
+    }
+</script>

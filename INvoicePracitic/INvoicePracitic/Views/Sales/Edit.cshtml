@@ -1,0 +1,60 @@
+﻿@model INvoicePracitic.ViewModel.VmSale;
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var CreateDate = Model.CreateDate == null ? "" : Convert.ToDateTime(Model.CreateDate).ToString("yyyy-MM-dd");
+}
+
+<h1>Edit Invoice</h1>
+
+<form method="post" asp-action="Update" enctype="multipart/form-data">
+    <input type="hidden" name="SaleId" value="@Model.SaleId"/>
+    <input type="hidden" name="Photo" value="@Model.Photo"/>
+    <img src="@Url.Action("ShowImage", "Sales", new { fileName = Model.Photo })" alt="Photo" width="120" height="120" /><br />
+    <label>Create Date</label><br />
+    <input type="date" name="CreateDate" value="@CreateDate" /><br />
+    <input type="text" name="Name" value="@Model.Name" /><br />
+    <input type="text" name="Address" value="@Model.Address"/><br />
+    <lable>Gender</lable><br />
+    <input type="radio" name="Gender" id="Male" value="Male" @(Model.Gender == "Male" ? "checked" : "") />
+    <label>Male</label><br />
+    <input type="radio" name="Gender" id="Female" value="Female" @(Model.Gender == "Female" ? "checked" : "" ) />
+    <lable>Female</lable><br />
+    <label>Photo</label><br />
+    <input type="file" name="File" /><br />
+    <button type="submit">Update</button><br /><br />
+    <button type="button" onclick="add();">Add more Item</button><br />
+    <table id="t">
+        <tbody id="tsd">
+        <thead>
+        <th>Product Name</th>
+        <th>Quantity</th>
+        <th>Price</th>
+        </thead>
+            @foreach(var list in Model.SaleDetails)
+            {
+                <tr id="tr_0"><td><input type="text" name="ProductName" placeholder="Product Name" value="@list.ProductName"/></td>
+                    <td><input type="text" name="Qty" placeholder="Qunatity" value="@list.Qty"/></td>
+                    <td><input type="text" name="Price" placeholder="Price" value="@list.Price" /></td>
+                    <td><button type=button onclick="remove(0)">Remove</button></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</form>
+
+<script>
+    function add() {
+        var trs = '<tr id="tr_0"><td><input type="text" name="ProductName" placeholder="Product Name" value=""/></td>' +
+            '<td><input type="text" name="Qty" placeholder="Qunatity" value=""/></td>' +
+            '<td><input type="text" name="Price" placeholder="Price" value="" /></td>' +
+            '<td><button type=button onclick="remove(0)">Remove</button></td></tr>';
+        document.getElementById('tsd').innerHTML += trs;
+    }
+
+    function remove(id) {
+        document.getElementById('tr_' + id).remove();
+    }
+    
+</script>
+
